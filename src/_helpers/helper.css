@@ -1,6 +1,5 @@
 * {
   box-sizing: border-box;
-  font-family: ;
 }
 
 body {
@@ -22,14 +21,14 @@ a {
 
 code {
   background: #eee;
-  padding: .1rem;
-  font-family: 'Menlo';
+  padding: 0.1rem;
+  font-family: "Menlo";
   font-size: 13px;
   color: #ff00aa;
 }
 
 input {
-  padding: .5rem;
+  padding: 0.5rem;
   font-size: 16px;
   width: 100%;
   display: block;
@@ -51,12 +50,12 @@ input.error {
 label {
   font-weight: bold;
   display: block;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .input-feedback {
   color: red;
-  margin-top: .25rem;
+  margin-top: 0.25rem;
 }
 
 button {
@@ -76,12 +75,12 @@ button {
 }
 
 button:disabled {
-  opacity: .5;
+  opacity: 0.5;
   cursor: not-allowed !important;
 }
 
 button + button {
-  margin-left: .5rem;
+  margin-left: 0.5rem;
 }
 
 button.outline {
