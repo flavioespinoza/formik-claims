@@ -77,24 +77,8 @@ export const MoreResources = props => (
           GitHub Repo
         </a>
       </li>
-      <li>
-        <a
-          href="https://github.com/jaredpalmer/formik/issues"
-          target="_blank"
-          rel="noopener"
-        >
-          Issues
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/jaredpalmer"
-          target="_blank"
-          rel="noopener"
-        >
-          Twitter (@jaredpalmer)
-        </a>
-      </li>
+
+
     </ul>
   </div>
 );

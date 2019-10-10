@@ -1,5 +1,5 @@
 {
-  "name": "formik-example",
+  "name": "formik-claims",
   "version": "0.0.0",
   "description": "An example form built with Formik and React",
   "keywords": [
@@ -7,7 +7,7 @@
     "formik",
     "forms"
   ],
-  "homepage": "https://codesandbox.io/s/zKrK5YLDZ",
+  "homepage": "https://github.com/flavioespinoza/formik-claims",
   "main": "index.js",
   "dependencies": {
     "@material-ui/core": "^4.5.0",
