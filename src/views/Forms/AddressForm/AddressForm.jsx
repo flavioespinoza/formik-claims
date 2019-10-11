@@ -1,13 +1,11 @@
 import * as React from 'react';
 import _ from 'lodash';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Field } from 'formik';
 import { _MoreResources, _DisplayFormikState } from '_helpers/_DisplayFormikState';
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import '@flavs/yup-yup';
-import * as Yup from 'yup';
 import ReactJson from 'react-json-view';
 
 const useStyles = makeStyles((theme) => ({
@@ -15,35 +13,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
   },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 500,
-    maxWidth: '500px !important',
-    backgroundColor: 'red',
-    padding: 12,
-  },
-  dense: {
-    marginTop: 19,
-  },
-  menu: {
-    width: 200,
-  },
-  button: {
-    margin: theme.spacing(1),
-  },
-  input: {
-    display: 'none',
-  },
 }));
 
 const AddressForm = () => {
   const classes = useStyles();
-
-  const _handleChange = (e) => {
-    console.log('_handleChange', e.target.value);
-  };
-
   return (
     <Formik
       initialValues={{
@@ -51,11 +24,6 @@ const AddressForm = () => {
         lastName: '',
         email: '',
         mobilePhone: '',
-        middleName: '',
-        birthDate: '',
-        workEmail: '',
-        homePhone: '',
-        workPhone: '',
         homeAddress: {
           type: 'home',
           street_address: '',
@@ -178,7 +146,6 @@ const AddressForm = () => {
               </Formik>
             </GridItem>
             <GridItem xs={12} sm={6}>
-              {/** i also have access to formik here too */}
               <div style={{ margin: '1rem 0' }}>
                 <h3 style={{ fontFamily: 'monospace' }} />
                 <pre
