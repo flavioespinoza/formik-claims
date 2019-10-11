@@ -9,6 +9,9 @@
   ],
   "homepage": "https://github.com/flavioespinoza/formik-claims",
   "main": "index.js",
+  "engines": {
+    "node": "10.3.0"
+  },
   "dependencies": {
     "@availity/yup": "^1.3.0",
     "@flavs/yup-yup": "1.0.8",
