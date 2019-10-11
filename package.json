@@ -10,6 +10,8 @@
   "homepage": "https://github.com/flavioespinoza/formik-claims",
   "main": "index.js",
   "dependencies": {
+    "@availity/yup": "^1.3.0",
+    "@flavs/yup-yup": "1.0.8",
     "@material-ui/core": "^4.5.0",
     "@material-ui/icons": "^4.4.3",
     "formik": "1.5.7",
@@ -18,10 +20,11 @@
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-json-view": "^1.19.1",
     "react-router-dom": "^5.1.1",
     "react-scripts": "3.0.1",
     "uuid": "^3.3.3",
-    "yup": "0.27.0"
+    "yup": "^0.27.0"
   },
   "devDependencies": {
     "react-scripts": "3.0.1"
@@ -49,10 +52,14 @@
     ]
   },
   "quokka": {
+    "pro": true,
     "babel": {
-      "presets": [
-        "react-app"
-      ]
+      "ignore": "node_modules/(?!lodash-es)"
+    },
+    "env": {
+      "params": {
+        "env": "BABEL_ENV=test"
+      }
     }
   }
 }

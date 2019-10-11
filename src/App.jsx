@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import SignupForm from 'views/Forms/SignupForm/SignupForm';
 
 const App = () => {
-  const _App = () => {
+  const AppView = () => {
     return (
       <section className="App">
         <Switch>
@@ -16,7 +16,7 @@ const App = () => {
 
   return (
     <Switch>
-      <_App />
+      <AppView />
     </Switch>
   );
 };

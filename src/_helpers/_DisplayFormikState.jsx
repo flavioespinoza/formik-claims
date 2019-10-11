@@ -1,6 +1,7 @@
 import * as React from 'react';
-
+import ReactJson from 'react-json-view';
 export const _DisplayFormikState = (props) => {
+  let _json = JSON.stringify(props)
   return (
     <div style={{ margin: '1rem 0' }}>
       <h3 style={{ fontFamily: 'monospace' }} />
@@ -10,7 +11,7 @@ export const _DisplayFormikState = (props) => {
           fontSize: '.65rem',
           padding: '.5rem',
         }}>
-        <strong>props</strong> = {JSON.stringify(props, null, 2)}
+        <ReactJson src={JSON.parse(_json)} />
       </pre>
     </div>
   );

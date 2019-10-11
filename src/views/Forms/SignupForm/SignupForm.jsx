@@ -1,34 +1,72 @@
 import * as React from 'react';
+import _ from 'lodash';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import { _MoreResources, _DisplayFormikState } from '_helpers/_DisplayFormikState';
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
-import _ from 'lodash';
-import uuid from 'uuid/v4';
+import { TextField, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import '@flavs/yup-yup';
+import * as Yup from 'yup';
 
-const Input = ({ ...props }) => {
-  const { ...prop } = props;
+const useStyles = makeStyles((theme) => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 500,
+    maxWidth: '500px !important',
+    backgroundColor: 'red',
+    padding: 12,
+  },
+  dense: {
+    marginTop: 19,
+  },
+  menu: {
+    width: 200,
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+  input: {
+    display: 'none',
+  },
+}));
+
+const InputComponent = ({ ...props }) => {
+  const { classes, ...prop } = props;
+  const placeholder = (prop_name) => {
+      if (prop_name === 'mobilePhone') {
+        return '999-999-9999'
+      } else {
+        return ''
+      }
+  }
   return (
-    <div>
+    <div className={'p12'}>
       <label htmlFor={prop.value} style={{ display: 'block' }}>
         {_.capitalize(prop.label)}
       </label>
-      <input
-        id={prop.name}
-        placeholder={prop.name}
-        type={prop.input_type}
-        value={prop.values}
-        onChange={prop._onChange}
-        onBlur={prop._onBlur}
-        className={prop.classes}
-      />
+      <TextField
+          fullWidth
+          id={prop.name}
+          className={classes.textField}
+          placeholder={placeholder(prop.name)}
+          value={prop.values}
+          onChange={prop._onChange}
+          onBlur={prop._onBlur}
+          className={prop.classes}
+        />
       {prop.errors && prop.touched && <div className="input-feedback">{prop.errors}</div>}
     </div>
   );
 };
 
 const SignupForm = () => {
+  const classes = useStyles();
   const [state, setState] = React.useState({
     firstName: '',
     lastName: '',
@@ -55,7 +93,7 @@ const SignupForm = () => {
     {
       name: 'mobilePhone',
       label: 'Mobile Phone',
-      input_type: 'number',
+      input_type: 'tel',
     },
   ];
 
@@ -80,9 +118,8 @@ const SignupForm = () => {
           email: Yup.string()
             .email()
             .required('Required'),
-          mobilePhone: Yup.number()
-            .min(10)
-            .max(10)
+          mobilePhone: Yup.string()
+            .phone()
             .required('Required'),
         })}>
         {(form_props) => {
@@ -97,12 +134,12 @@ const SignupForm = () => {
             handleSubmit,
             handleReset,
           } = form_props;
-
           const _inputs = inputs.map((obj) => {
             return (
-              <div key={uuid()} className={'mt12 mb12'}>
-                <Input
+              <div className={'mt12 mb12'}>
+                <InputComponent
                   {...{
+                    classes: classes,
                     name: obj.name,
                     label: obj.label,
                     input_type: obj.input_type,
@@ -116,19 +153,18 @@ const SignupForm = () => {
               </div>
             );
           });
-
           return (
-            <form onSubmit={handleSubmit}>
+            <form className={classes.container} onSubmit={handleSubmit}>
               <GridContainer justify="center">
                 <GridItem xs={12} sm={6}>
                   <div>
                     {_inputs}
-                    <button type="button" className="outline" onClick={handleReset} disabled={!dirty || isSubmitting}>
+                    <Button variant="contained" onClick={handleReset} disabled={!dirty || isSubmitting}>
                       Reset
-                    </button>
-                    <button type="submit" disabled={isSubmitting}>
+                    </Button>
+                    <Button variant="contained" color="primary" className={classes.button} onClick={handleSubmit} disabled={isSubmitting}>
                       Submit
-                    </button>
+                    </Button>
                   </div>
                 </GridItem>
                 <GridItem xs={12} sm={6}>
@@ -139,7 +175,6 @@ const SignupForm = () => {
           );
         }}
       </Formik>
-      <_MoreResources />
     </div>
   );
 };
