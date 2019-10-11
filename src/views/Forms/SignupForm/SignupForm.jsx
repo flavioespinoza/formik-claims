@@ -4,10 +4,11 @@ import { Formik } from 'formik';
 import { _MoreResources, _DisplayFormikState } from '_helpers/_DisplayFormikState';
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
-import { TextField, Button } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import '@flavs/yup-yup';
 import * as Yup from 'yup';
+import FormConfig from 'views/Forms/FormConfig/FormConfig';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -38,28 +39,31 @@ const useStyles = makeStyles((theme) => ({
 
 const InputComponent = ({ ...props }) => {
   const { classes, ...prop } = props;
-  const placeholder = (prop_name) => {
-      if (prop_name === 'mobilePhone') {
-        return '999-999-9999'
-      } else {
-        return ''
-      }
-  }
+  const placeholder = (input_type) => {
+    if (input_type === 'tel') {
+      return '999-999-9999';
+    } else if (input_type === 'email') {
+      return 'you@youremail.com';
+    } else if (input_type === 'date') {
+      return 'MM/DD/YYYY';
+    } else {
+      return '';
+    }
+  };
   return (
     <div className={'p12'}>
       <label htmlFor={prop.value} style={{ display: 'block' }}>
         {_.capitalize(prop.label)}
       </label>
-      <TextField
-          fullWidth
-          id={prop.name}
-          className={classes.textField}
-          placeholder={placeholder(prop.name)}
-          value={prop.values}
-          onChange={prop._onChange}
-          onBlur={prop._onBlur}
-          className={prop.classes}
-        />
+      <input
+        id={prop.name}
+        className={classes.textField}
+        placeholder={placeholder(prop.input_type)}
+        value={prop.values}
+        onChange={prop._onChange}
+        onBlur={prop._onBlur}
+        className={prop.classes}
+      />
       {prop.errors && prop.touched && <div className="input-feedback">{prop.errors}</div>}
     </div>
   );
@@ -67,35 +71,6 @@ const InputComponent = ({ ...props }) => {
 
 const SignupForm = () => {
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    mobilePhone: '',
-  });
-
-  const inputs = [
-    {
-      name: 'firstName',
-      label: 'First Name',
-      input_type: 'text',
-    },
-    {
-      name: 'lastName',
-      label: 'Last Name',
-      input_type: 'text',
-    },
-    {
-      name: 'email',
-      label: 'Email',
-      input_type: 'text',
-    },
-    {
-      name: 'mobilePhone',
-      label: 'Mobile Phone',
-      input_type: 'tel',
-    },
-  ];
 
   return (
     <div className="app">
@@ -105,6 +80,11 @@ const SignupForm = () => {
           lastName: '',
           email: '',
           mobilePhone: '',
+          middleName: '',
+          birthDate: '',
+          workEmail: '',
+          homePhone: '',
+          workPhone: '',
         }}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
@@ -121,6 +101,11 @@ const SignupForm = () => {
           mobilePhone: Yup.string()
             .phone()
             .required('Required'),
+          middleName: Yup.string(),
+          birthDate: Yup.string(),
+          workEmail: Yup.string().email(),
+          homePhone: Yup.string().phone(),
+          workPhone: Yup.string().phone(),
         })}>
         {(form_props) => {
           const {
@@ -134,7 +119,7 @@ const SignupForm = () => {
             handleSubmit,
             handleReset,
           } = form_props;
-          const _inputs = inputs.map((obj) => {
+          const _inputs = FormConfig.inputs.map((obj) => {
             return (
               <div className={'mt12 mb12'}>
                 <InputComponent
@@ -162,7 +147,12 @@ const SignupForm = () => {
                     <Button variant="contained" onClick={handleReset} disabled={!dirty || isSubmitting}>
                       Reset
                     </Button>
-                    <Button variant="contained" color="primary" className={classes.button} onClick={handleSubmit} disabled={isSubmitting}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      className={classes.button}
+                      onClick={handleSubmit}
+                      disabled={isSubmitting}>
                       Submit
                     </Button>
                   </div>

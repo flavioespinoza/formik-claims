@@ -1,0 +1,60 @@
+import * as React from 'react';
+
+export default {
+  inputs:  [
+    {
+      name: 'firstName',
+      label: 'First Name',
+      input_type: 'text',
+      required: true,
+    },
+    {
+      name: 'lastName',
+      label: 'Last Name',
+      input_type: 'text',
+      required: true,
+    },
+    {
+      name: 'email',
+      label: 'Email',
+      input_type: 'email',
+      required: true,
+    },
+    {
+      name: 'mobilePhone',
+      label: 'Mobile Phone',
+      input_type: 'tel',
+      required: true,
+    },
+    {
+      name: 'middleName',
+      label: 'Middle Name',
+      input_type: 'text',
+      required: true,
+    },
+    {
+      name: 'birthDate',
+      label: 'Birth Date',
+      input_type: 'date',
+      required: false,
+    },
+    {
+      name: 'workEmail',
+      label: 'Work Email',
+      input_type: 'email',
+      required: false,
+    },
+    {
+      name: 'homePhone',
+      label: 'Home Phone',
+      input_type: 'tel',
+      required: false,
+    },
+    {
+      name: 'workPhone',
+      label: 'Work Phone',
+      input_type: 'tel',
+      required: false,
+    },
+  ]
+}
