@@ -41,6 +41,12 @@ export default {
       required: false,
     },
     {
+      name: 'gender',
+      label: 'Gender',
+      input_type: 'select',
+      required: false,
+    },
+    {
       name: 'workEmail',
       label: 'Work Email',
       input_type: 'email',

@@ -1,33 +1,6 @@
 import * as React from 'react';
 import ReactJson from 'react-json-view';
 
-const ingest_json_req = ({ ...props }) => {
-  const { ...prop } = props;
-  return {
-    '@context': ['https://ado.utm.webshield.io/json.ld'],
-    source_data: {},
-    source_metadata: {},
-    ado_data: {
-      subjects: [
-        {
-          type: 'https://ado.utm.webshield.io/Person',
-          names: [
-            {
-              type: 'https://ado.utm.webshield.io/Name',
-              givenName: prop.firstName,
-              familyName: prop.lastName,
-              middleName: prop.middleName,
-            },
-          ],
-        },
-      ],
-      not_subjects: [],
-      credentials: [],
-    },
-  };
-};
-
-
 export const _DisplayFormikState = (props) => {
   let _json = JSON.stringify({
     values: props.values,
@@ -104,29 +77,30 @@ export const _DisplayFormikState = (props) => {
     ],
     citizenships: [],
   });
-
   return (
-    <section>
+    <section style={{overflowY: 'scroll'}}>
       <div style={{ margin: '1rem 0' }}>
-      <h3 style={{ fontFamily: 'monospace' }}>Input Values</h3>
+      <h3 style={{ fontFamily: 'monospace', marginBottom: 0 }}>Input Values</h3>
       <pre
         style={{
           background: '#f6f8fa',
           fontSize: '.65rem',
           padding: '.5rem',
+          margin: 0,
         }}>
-        <ReactJson src={JSON.parse(_json)} displayDataTypes={false} />
+        <ReactJson theme={'monokai'} src={JSON.parse(_json)} displayDataTypes={false} style={{padding: 12, borderRadius: 5}} />
       </pre>
     </div>
     <div style={{ margin: '1rem 0' }}>
-      <h3 style={{ fontFamily: 'monospace' }}>ado Person</h3>
+      <h3 style={{ fontFamily: 'monospace', marginBottom: 0 }}>ado Person</h3>
       <pre
         style={{
           background: '#f6f8fa',
           fontSize: '.65rem',
           padding: '.5rem',
+          margin: 0,
         }}>
-        <ReactJson src={JSON.parse(_ado_person)} displayDataTypes={false} />
+        <ReactJson theme={'monokai'} src={JSON.parse(_ado_person)} displayDataTypes={false} style={{padding: 12, borderRadius: 5}} />
       </pre>
     </div>
     </section>
