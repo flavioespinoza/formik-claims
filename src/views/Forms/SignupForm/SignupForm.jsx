@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import { _MoreResources, _DisplayFormikState } from '_helpers/_DisplayFormikState';
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
+
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import '@flavs/yup-yup';
@@ -71,7 +72,6 @@ const InputComponent = ({ ...props }) => {
 
 const SignupForm = () => {
   const classes = useStyles();
-
   return (
     <div className="app">
       <Formik
