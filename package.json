@@ -15,7 +15,7 @@
     "@material-ui/core": "^4.5.0",
     "@material-ui/icons": "^4.4.3",
     "authnet-app": "https://github.com/webshield-dev/authnet-app.git",
-    "formik": "1.5.7",
+    "formik": "2.0.1-rc.13",
     "lodash": "^4.17.15",
     "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",

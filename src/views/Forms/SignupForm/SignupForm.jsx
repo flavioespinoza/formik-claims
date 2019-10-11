@@ -1,7 +1,7 @@
 import * as React from 'react';
 import _ from 'lodash';
 import { Formik } from 'formik';
-import { _MoreResources, _DisplayFormikState } from '_helpers/_DisplayFormikState';
+import { _DisplayFormikState } from '_helpers/_DisplayFormikState';
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
 
@@ -10,6 +10,50 @@ import { makeStyles } from '@material-ui/core/styles';
 import '@flavs/yup-yup';
 import * as Yup from 'yup';
 import FormConfig from 'views/Forms/FormConfig/FormConfig';
+import AddressForm from 'views/Forms/AddressForm/AddressForm';
+
+const address_examples = {
+  homeAddress: {
+    title: 'Home Address',
+    type: 'string',
+    mutability: 'READ_WRITE',
+    scope: 'NONE',
+    permissions: [
+      {
+        principal: 'SELF',
+        action: 'READ_ONLY',
+      },
+    ],
+    address: {
+      type: 'PostalAddress/HomeAddress',
+      addressCountry: '',
+      addressLocality: '',
+      addressRegion: '',
+      streetAddress: '',
+      postalCode: '94043',
+    },
+  },
+  workAddress: {
+    title: 'Work Address',
+    type: 'string',
+    mutability: 'READ_WRITE',
+    scope: 'NONE',
+    permissions: [
+      {
+        principal: 'SELF',
+        action: 'READ_ONLY',
+      },
+    ],
+    address: {
+      type: 'PostalAddress/WorkAddress',
+      addressCountry: '',
+      addressLocality: '',
+      addressRegion: '',
+      streetAddress: '',
+      postalCode: '94043',
+    },
+  },
+};
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -65,7 +109,9 @@ const InputComponent = ({ ...props }) => {
         onBlur={prop._onBlur}
         className={prop.classes}
       />
-      {prop.errors && prop.touched && <div className="input-feedback">{prop.errors}</div>}
+      {prop.errors && prop.touched && (
+        <div className="input-feedback">{prop.errors}</div>
+      )}
     </div>
   );
 };
@@ -85,6 +131,20 @@ const SignupForm = () => {
           workEmail: '',
           homePhone: '',
           workPhone: '',
+          homeAddress: {
+            type: 'HomeAddress',
+            street_address: '',
+            city: '',
+            state: '',
+            zipcode: '',
+          },
+          workAddress: {
+            type: 'WorkAddress',
+            street_address: '',
+            city: '',
+            state: '',
+            zipcode: '',
+          },
         }}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
@@ -107,19 +167,27 @@ const SignupForm = () => {
           homePhone: Yup.string().phone(),
           workPhone: Yup.string().phone(),
         })}>
-        {(form_props) => {
-          const {
-            values,
-            touched,
-            errors,
-            dirty,
-            isSubmitting,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            handleReset,
-          } = form_props;
-          const _inputs = FormConfig.inputs.map((obj) => {
+        {(formik) => {
+          const _required = FormConfig.required.map((obj) => {
+            return (
+              <div>
+                <InputComponent
+                  {...{
+                    classes: classes,
+                    name: obj.name,
+                    label: obj.label,
+                    input_type: obj.input_type,
+                    values: formik.values[obj.name],
+                    errors: formik.errors[obj.name],
+                    touched: formik.touched[obj.name],
+                    _onChange: formik.handleChange,
+                    _onBlur: formik.handleBlur,
+                  }}
+                />
+              </div>
+            );
+          });
+          const _optional = FormConfig.optional.map((obj) => {
             return (
               <div className={'mt12 mb12'}>
                 <InputComponent
@@ -128,40 +196,79 @@ const SignupForm = () => {
                     name: obj.name,
                     label: obj.label,
                     input_type: obj.input_type,
-                    values: values[obj.name],
-                    errors: errors[obj.name],
-                    touched: touched[obj.name],
-                    _onChange: handleChange,
-                    _onBlur: handleBlur,
+                    values: formik.values[obj.name],
+                    errors: formik.errors[obj.name],
+                    touched: formik.touched[obj.name],
+                    _onChange: formik.handleChange,
+                    _onBlur: formik.handleBlur,
                   }}
                 />
               </div>
             );
           });
           return (
-            <form className={classes.container} onSubmit={handleSubmit}>
+            <Formik
+              className={classes.container}
+              onSubmit={formik.handleSubmit}>
               <GridContainer justify="center">
                 <GridItem xs={12} sm={6}>
-                  <div>
-                    {_inputs}
-                    <Button variant="contained" onClick={handleReset} disabled={!dirty || isSubmitting}>
-                      Reset
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      className={classes.button}
-                      onClick={handleSubmit}
-                      disabled={isSubmitting}>
-                      Submit
-                    </Button>
+                  <div className={'not-form'}>
+                    <div className={'mb48'}>
+                      <h1>Required Identity Attributes</h1>
+                      {_required}
+                    </div>
+                    <div className={'mb48'}>
+                      <h1>Optional Identity Attributes</h1>
+                      {_optional}
+                    </div>
+                    <div className={'mb48'}>
+                      <h1>Optional Addresses</h1>
+                      <GridContainer className={'pl12 pr12'}>
+                        <GridItem xs={12} sm={6}>
+                          <AddressForm
+                            {...{
+                              classes: classes,
+                              name: 'homeAddress',
+                              title: 'Home address',
+                              _handleChange: formik.handleChange,
+                            }}
+                          />
+                        </GridItem>
+                        <GridItem xs={12} sm={6}>
+                          <AddressForm
+                            {...{
+                              classes: classes,
+                              name: 'workAddress',
+                              title: 'Work address',
+                              _handleChange: formik.handleChange,
+                            }}
+                          />
+                        </GridItem>
+                      </GridContainer>
+                    </div>
+                    <div>
+                      <Button
+                        variant="contained"
+                        onClick={formik.handleReset}
+                        disabled={!formik.dirty || formik.isSubmitting}>
+                        Reset
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        onClick={formik.handleSubmit}
+                        disabled={formik.isSubmitting}>
+                        Submit
+                      </Button>
+                    </div>
                   </div>
                 </GridItem>
                 <GridItem xs={12} sm={6}>
-                  <_DisplayFormikState {...form_props} />
+                  <_DisplayFormikState {...formik} />
                 </GridItem>
               </GridContainer>
-            </form>
+            </Formik>
           );
         }}
       </Formik>

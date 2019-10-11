@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export default {
-  inputs:  [
+  required: [
     {
       name: 'firstName',
       label: 'First Name',
@@ -26,11 +26,13 @@ export default {
       input_type: 'tel',
       required: true,
     },
+  ],
+  optional:  [
     {
       name: 'middleName',
       label: 'Middle Name',
       input_type: 'text',
-      required: true,
+      required: false,
     },
     {
       name: 'birthDate',
