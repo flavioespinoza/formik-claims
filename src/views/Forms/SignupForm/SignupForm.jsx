@@ -12,75 +12,14 @@ import * as Yup from 'yup';
 import FormConfig from 'views/Forms/FormConfig/FormConfig';
 import AddressForm from 'views/Forms/AddressForm/AddressForm';
 
-const address_examples = {
-  homeAddress: {
-    title: 'Home Address',
-    type: 'string',
-    mutability: 'READ_WRITE',
-    scope: 'NONE',
-    permissions: [
-      {
-        principal: 'SELF',
-        action: 'READ_ONLY',
-      },
-    ],
-    address: {
-      type: 'PostalAddress/HomeAddress',
-      addressCountry: '',
-      addressLocality: '',
-      addressRegion: '',
-      streetAddress: '',
-      postalCode: '94043',
-    },
-  },
-  workAddress: {
-    title: 'Work Address',
-    type: 'string',
-    mutability: 'READ_WRITE',
-    scope: 'NONE',
-    permissions: [
-      {
-        principal: 'SELF',
-        action: 'READ_ONLY',
-      },
-    ],
-    address: {
-      type: 'PostalAddress/WorkAddress',
-      addressCountry: '',
-      addressLocality: '',
-      addressRegion: '',
-      streetAddress: '',
-      postalCode: '94043',
-    },
-  },
-};
-
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
   },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 500,
-    maxWidth: '500px !important',
-    backgroundColor: 'red',
-    padding: 12,
-  },
-  dense: {
-    marginTop: 19,
-  },
-  menu: {
-    width: 200,
-  },
-  button: {
-    margin: theme.spacing(1),
-  },
-  input: {
-    display: 'none',
-  },
 }));
+
+const initialValues = FormConfig.initialValues;
 
 const InputComponent = ({ ...props }) => {
   const { classes, ...prop } = props;
@@ -121,31 +60,7 @@ const SignupForm = () => {
   return (
     <div className="app">
       <Formik
-        initialValues={{
-          firstName: '',
-          lastName: '',
-          email: '',
-          mobilePhone: '',
-          middleName: '',
-          birthDate: '',
-          workEmail: '',
-          homePhone: '',
-          workPhone: '',
-          homeAddress: {
-            type: 'HomeAddress',
-            street_address: '',
-            city: '',
-            state: '',
-            zipcode: '',
-          },
-          workAddress: {
-            type: 'WorkAddress',
-            street_address: '',
-            city: '',
-            state: '',
-            zipcode: '',
-          },
-        }}
+        initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
@@ -240,6 +155,30 @@ const SignupForm = () => {
                               classes: classes,
                               name: 'workAddress',
                               title: 'Work address',
+                              _handleChange: formik.handleChange,
+                            }}
+                          />
+                        </GridItem>
+                      </GridContainer>
+                    </div>
+                    <div className={'mb48'}>
+                      <GridContainer className={'pl12 pr12'}>
+                        <GridItem xs={12} sm={6}>
+                          <AddressForm
+                            {...{
+                              classes: classes,
+                              name: 'schoolAddress',
+                              title: 'School address',
+                              _handleChange: formik.handleChange,
+                            }}
+                          />
+                        </GridItem>
+                        <GridItem xs={12} sm={6}>
+                          <AddressForm
+                            {...{
+                              classes: classes,
+                              name: 'organizationAddress',
+                              title: 'Oranization address',
                               _handleChange: formik.handleChange,
                             }}
                           />

@@ -19,13 +19,19 @@ export const _DisplayFormikState = (props) => {
       type: 'https://ado.utm.webshield.io/Identifiers',
       phoneNumber: [
         {
-          type: ['https://ado.utm.webshield.io/PhoneNumber', 'https://ado.utm.webshield.io/PhoneNumber/MobilePhone'],
+          type: [
+            'https://ado.utm.webshield.io/PhoneNumber',
+            'https://ado.utm.webshield.io/PhoneNumber/MobilePhone',
+          ],
           value: props.values.mobilePhone,
           startDate: '',
           endDate: '',
         },
         {
-          type: ['https://ado.utm.webshield.io/PhoneNumber', 'https://ado.utm.webshield.io/PhoneNumber/HomePhone'],
+          type: [
+            'https://ado.utm.webshield.io/PhoneNumber',
+            'https://ado.utm.webshield.io/PhoneNumber/HomePhone',
+          ],
           value: props.values.homePhone,
           startDate: '',
           endDate: '',
@@ -52,7 +58,7 @@ export const _DisplayFormikState = (props) => {
         givenName: props.values.firstName,
         familyName: props.values.lastName,
         middleName: props.values.middleName,
-        fullName: `${props.values.firstName}  ${props.values.middleName} ${props.values.lastName}`
+        fullName: `${props.values.firstName}  ${props.values.middleName} ${props.values.lastName}`,
       },
     ],
     addresses: [
@@ -77,94 +83,49 @@ export const _DisplayFormikState = (props) => {
     ],
     citizenships: [],
   });
+  let adoShow = false;
   return (
-    <section style={{overflowY: 'scroll'}}>
+    <section>
       <div style={{ margin: '1rem 0' }}>
-      <h3 style={{ fontFamily: 'monospace', marginBottom: 0 }}>Input Values</h3>
-      <pre
-        style={{
-          background: '#f6f8fa',
-          fontSize: '.65rem',
-          padding: '.5rem',
-          margin: 0,
-        }}>
-        <ReactJson theme={'monokai'} src={JSON.parse(_json)} displayDataTypes={false} style={{padding: 12, borderRadius: 5}} />
-      </pre>
-    </div>
-    <div style={{ margin: '1rem 0' }}>
-      <h3 style={{ fontFamily: 'monospace', marginBottom: 0 }}>ado Person</h3>
-      <pre
-        style={{
-          background: '#f6f8fa',
-          fontSize: '.65rem',
-          padding: '.5rem',
-          margin: 0,
-        }}>
-        <ReactJson theme={'monokai'} src={JSON.parse(_ado_person)} displayDataTypes={false} style={{padding: 12, borderRadius: 5}} />
-      </pre>
-    </div>
+        <h3 style={{ fontFamily: 'monospace', marginBottom: 0 }}>
+          Input Values
+        </h3>
+        <pre
+          style={{
+            background: '#f6f8fa',
+            fontSize: '.65rem',
+            padding: '.5rem',
+            margin: 0,
+          }}>
+          <ReactJson
+            theme={'monokai'}
+            src={JSON.parse(_json)}
+            displayDataTypes={false}
+            style={{ padding: 12, borderRadius: 5, overflow: 'hidden' }}
+          />
+        </pre>
+      </div>
+      {adoShow ? (
+        <div style={{ margin: '1rem 0' }}>
+          <h3 style={{ fontFamily: 'monospace', marginBottom: 0 }}>
+            ado Person
+          </h3>
+          <pre
+            style={{
+              background: '#f6f8fa',
+              fontSize: '.65rem',
+              padding: '.5rem',
+              margin: 0,
+            }}>
+            <ReactJson
+              theme={'monokai'}
+              src={JSON.parse(_ado_person)}
+              displayDataTypes={false}
+              style={{ padding: 12, borderRadius: 5, overflow: 'hidden' }}
+            />
+          </pre>
+        </div>
+      ) : null}
     </section>
-  );
-};
-
-export const _MoreResources = (props) => {
-  return (
-    <div>
-      <hr style={{ margin: '3rem 0' }} />
-      <h3>More Examples</h3>
-      <ul>
-        <li>
-          <a
-            href="https://codesandbox.io/s/q8yRqQMp"
-            target="_blank"
-            rel="noopener">
-            Synchronous validation
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://codesandbox.io/s/qJR4ykJk"
-            target="_blank"
-            rel="noopener">
-            Building your own custom inputs
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://codesandbox.io/s/jRzE53pqR"
-            target="_blank"
-            rel="noopener">
-            3rd-party input components: React-select
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://codesandbox.io/s/QW1rqjBLl"
-            target="_blank"
-            rel="noopener">
-            3rd-party input components: Draft.js
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://codesandbox.io/s/pgD4DLypy"
-            target="_blank"
-            rel="noopener">
-            Accessing Lifecyle Methods (resetting a form externally)
-          </a>
-        </li>
-      </ul>
-      <h3 style={{ marginTop: '1rem' }}>Additional Resources</h3>
-      <ul>
-        <li>
-          <a
-            href="https://github.com/jaredpalmer/formik"
-            target="_blank"
-            rel="noopener">
-            GitHub Repo
-          </a>
-        </li>
-      </ul>
-    </div>
   );
 };

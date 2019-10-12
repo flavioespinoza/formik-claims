@@ -1,24 +1,10 @@
-import * as React from 'react';
-import '@flavs/yup-yup';
-import * as Yup from 'yup';
+// import * as React from 'react';
+// import '@flavs/yup-yup';
+// import * as Yup from 'yup';
+const _ = require('lodash');
 
-const okta_user_profile_schema = {
+const schema = {
   properties: {
-    login: {
-      title: 'Username',
-      type: 'string',
-      required: true,
-      mutability: 'READ_WRITE',
-      scope: 'NONE',
-      minLength: 5,
-      maxLength: 100,
-      permissions: [
-        {
-          principal: 'SELF',
-          action: 'READ_ONLY',
-        },
-      ],
-    },
     firstName: {
       title: 'First name',
       type: 'string',
@@ -49,6 +35,34 @@ const okta_user_profile_schema = {
         },
       ],
     },
+    email: {
+      title: 'Primary email',
+      type: 'email',
+      required: true,
+      format: 'email',
+      mutability: 'READ_WRITE',
+      scope: 'NONE',
+      permissions: [
+        {
+          principal: 'SELF',
+          action: 'READ_WRITE',
+        },
+      ],
+    },
+    mobilePhone: {
+      title: 'Mobile phone',
+      type: 'tel',
+      required: true,
+      mutability: 'READ_WRITE',
+      scope: 'NONE',
+      maxLength: 10,
+      permissions: [
+        {
+          principal: 'SELF',
+          action: 'READ_WRITE',
+        },
+      ],
+    },
     middleName: {
       title: 'Middle name',
       type: 'string',
@@ -61,9 +75,9 @@ const okta_user_profile_schema = {
         },
       ],
     },
-    honorificPrefix: {
-      title: 'Honorific prefix',
-      type: 'string',
+    birthDate: {
+      title: 'Birth date',
+      type: 'date',
       mutability: 'READ_WRITE',
       scope: 'NONE',
       permissions: [
@@ -73,9 +87,9 @@ const okta_user_profile_schema = {
         },
       ],
     },
-    honorificSuffix: {
-      title: 'Honorific suffix',
-      type: 'string',
+    gender: {
+      title: 'Gender',
+      type: 'select',
       mutability: 'READ_WRITE',
       scope: 'NONE',
       permissions: [
@@ -85,10 +99,9 @@ const okta_user_profile_schema = {
         },
       ],
     },
-    email: {
-      title: 'Primary email',
-      type: 'string',
-      required: true,
+    secondEmail: {
+      title: 'Secondary email',
+      type: 'email',
       format: 'email',
       mutability: 'READ_WRITE',
       scope: 'NONE',
@@ -96,6 +109,84 @@ const okta_user_profile_schema = {
         {
           principal: 'SELF',
           action: 'READ_WRITE',
+        },
+      ],
+    },
+    workEmail: {
+      title: 'Work email',
+      type: 'email',
+      format: 'email',
+      mutability: 'READ_WRITE',
+      scope: 'NONE',
+      permissions: [
+        {
+          principal: 'SELF',
+          action: 'READ_WRITE',
+        },
+      ],
+    },
+    schoolEmail: {
+      title: 'School email',
+      type: 'email',
+      format: 'email',
+      mutability: 'READ_WRITE',
+      scope: 'NONE',
+      permissions: [
+        {
+          principal: 'SELF',
+          action: 'READ_WRITE',
+        },
+      ],
+    },
+    organizationEmail: {
+      title: 'Organization email',
+      type: 'email',
+      format: 'email',
+      mutability: 'READ_WRITE',
+      scope: 'NONE',
+      permissions: [
+        {
+          principal: 'SELF',
+          action: 'READ_WRITE',
+        },
+      ],
+    },
+    homePhone: {
+      title: 'Home phone',
+      type: 'tel',
+      mutability: 'READ_WRITE',
+      scope: 'NONE',
+      maxLength: 10,
+      permissions: [
+        {
+          principal: 'SELF',
+          action: 'READ_WRITE',
+        },
+      ],
+    },
+    workPhone: {
+      title: 'Work phone',
+      type: 'tel',
+      mutability: 'READ_WRITE',
+      scope: 'NONE',
+      maxLength: 10,
+      permissions: [
+        {
+          principal: 'SELF',
+          action: 'READ_WRITE',
+        },
+      ],
+    },
+    primaryPhone: {
+      title: 'Primary phone',
+      type: 'tel',
+      mutability: 'READ_WRITE',
+      scope: 'NONE',
+      maxLength: 100,
+      permissions: [
+        {
+          principal: 'SELF',
+          action: 'HIDE',
         },
       ],
     },
@@ -135,6 +226,30 @@ const okta_user_profile_schema = {
         },
       ],
     },
+    honorificPrefix: {
+      title: 'Honorific prefix',
+      type: 'string',
+      mutability: 'READ_WRITE',
+      scope: 'NONE',
+      permissions: [
+        {
+          principal: 'SELF',
+          action: 'READ_ONLY',
+        },
+      ],
+    },
+    honorificSuffix: {
+      title: 'Honorific suffix',
+      type: 'string',
+      mutability: 'READ_WRITE',
+      scope: 'NONE',
+      permissions: [
+        {
+          principal: 'SELF',
+          action: 'READ_ONLY',
+        },
+      ],
+    },
     profileUrl: {
       title: 'Profile Url',
       type: 'string',
@@ -148,148 +263,10 @@ const okta_user_profile_schema = {
         },
       ],
     },
-    secondEmail: {
-      title: 'Secondary email',
-      type: 'string',
-      format: 'email',
-      mutability: 'READ_WRITE',
-      scope: 'NONE',
-      permissions: [
-        {
-          principal: 'SELF',
-          action: 'READ_WRITE',
-        },
-      ],
-    },
-    mobilePhone: {
-      title: 'Mobile phone',
-      type: 'string',
-      mutability: 'READ_WRITE',
-      scope: 'NONE',
-      maxLength: 100,
-      permissions: [
-        {
-          principal: 'SELF',
-          action: 'READ_WRITE',
-        },
-      ],
-    },
-    primaryPhone: {
-      title: 'Primary phone',
-      type: 'string',
-      mutability: 'READ_WRITE',
-      scope: 'NONE',
-      maxLength: 100,
-      permissions: [
-        {
-          principal: 'SELF',
-          action: 'HIDE',
-        },
-      ],
-    },
-    streetAddress: {
-      title: 'Street address',
-      type: 'string',
-      mutability: 'READ_WRITE',
-      scope: 'NONE',
-      permissions: [
-        {
-          principal: 'SELF',
-          action: 'HIDE',
-        },
-      ],
-    },
-    city: {
-      title: 'City',
-      type: 'string',
-      mutability: 'READ_WRITE',
-      scope: 'NONE',
-      permissions: [
-        {
-          principal: 'SELF',
-          action: 'HIDE',
-        },
-      ],
-    },
-    state: {
-      title: 'State',
-      type: 'string',
-      mutability: 'READ_WRITE',
-      scope: 'NONE',
-      permissions: [
-        {
-          principal: 'SELF',
-          action: 'HIDE',
-        },
-      ],
-    },
-    zipCode: {
-      title: 'Zip code',
-      type: 'string',
-      mutability: 'READ_WRITE',
-      scope: 'NONE',
-      permissions: [
-        {
-          principal: 'SELF',
-          action: 'HIDE',
-        },
-      ],
-    },
-    countryCode: {
-      title: 'Country code',
-      type: 'string',
-      format: 'country-code',
-      mutability: 'READ_WRITE',
-      scope: 'NONE',
-      permissions: [
-        {
-          principal: 'SELF',
-          action: 'HIDE',
-        },
-      ],
-    },
-    postalAddress: {
-      title: 'Postal Address',
-      type: 'string',
-      mutability: 'READ_WRITE',
-      scope: 'NONE',
-      permissions: [
-        {
-          principal: 'SELF',
-          action: 'HIDE',
-        },
-      ],
-    },
     preferredLanguage: {
       title: 'Preferred language',
       type: 'string',
       format: 'language-code',
-      mutability: 'READ_WRITE',
-      scope: 'NONE',
-      permissions: [
-        {
-          principal: 'SELF',
-          action: 'READ_ONLY',
-        },
-      ],
-    },
-    locale: {
-      title: 'Locale',
-      type: 'string',
-      format: 'locale',
-      mutability: 'READ_WRITE',
-      scope: 'NONE',
-      permissions: [
-        {
-          principal: 'SELF',
-          action: 'READ_ONLY',
-        },
-      ],
-    },
-    timezone: {
-      title: 'Time zone',
-      type: 'string',
-      format: 'timezone',
       mutability: 'READ_WRITE',
       scope: 'NONE',
       permissions: [
@@ -397,7 +374,7 @@ const okta_user_profile_schema = {
     },
     homeAddress: {
       title: 'Home Address',
-      type: 'string',
+      type: 'address',
       mutability: 'READ_WRITE',
       scope: 'NONE',
       permissions: [
@@ -408,16 +385,16 @@ const okta_user_profile_schema = {
       ],
       address: {
         type: 'PostalAddress/HomeAddress',
-        addressCountry: '',
+        streetAddress: '',
         addressLocality: '',
         addressRegion: '',
-        streetAddress: '',
-        postalCode: '94043',
+        postalCode: '',
+        addressCountry: '',
       },
     },
     workAddress: {
       title: 'Work Address',
-      type: 'string',
+      type: 'address',
       mutability: 'READ_WRITE',
       scope: 'NONE',
       permissions: [
@@ -428,16 +405,16 @@ const okta_user_profile_schema = {
       ],
       address: {
         type: 'PostalAddress/WorkAddress',
-        addressCountry: '',
+        streetAddress: '',
         addressLocality: '',
         addressRegion: '',
-        streetAddress: '',
-        postalCode: '94043',
+        postalCode: '',
+        addressCountry: '',
       },
     },
     organizationAddress: {
       title: 'organizational Address',
-      type: 'string',
+      type: 'address',
       mutability: 'READ_WRITE',
       scope: 'NONE',
       permissions: [
@@ -447,18 +424,37 @@ const okta_user_profile_schema = {
         },
       ],
       address: {
-        type: 'PostalAddress/WorkAddress',
-        name: '',
-        addressCountry: '',
+        type: 'PostalAddress/OrganizationAddress',
+        streetAddress: '',
         addressLocality: '',
         addressRegion: '',
+        postalCode: '',
+        addressCountry: '',
+      },
+    },
+    schoolAddress: {
+      title: 'School Address',
+      type: 'address',
+      mutability: 'READ_WRITE',
+      scope: 'NONE',
+      permissions: [
+        {
+          principal: 'SELF',
+          action: 'READ_ONLY',
+        },
+      ],
+      address: {
+        type: 'PostalAddress/SchoolAddress',
         streetAddress: '',
-        postalCode: '94043',
+        addressLocality: '',
+        addressRegion: '',
+        postalCode: '',
+        addressCountry: '',
       },
     },
     postOfficeBoxAddress: {
       title: 'Post Office Box Address',
-      type: 'string',
+      type: 'address',
       mutability: 'READ_WRITE',
       scope: 'NONE',
       permissions: [
@@ -469,14 +465,88 @@ const okta_user_profile_schema = {
       ],
       address: {
         type: 'PostalAddress/PostOfficeBoxNumber',
-        name: '',
+        nameOnBox: '',
         addressCountry: '',
         addressLocality: '',
         addressRegion: '',
-        postOfficeBoxNumber: '1234',
-        postalCode: '94043',
+        postOfficeBoxNumber: '',
+        postalCode: '',
       },
     },
   },
   required: ['login', 'firstName', 'lastName', 'email'],
 };
+
+const UserProfileSchema = () => {
+  const _exports = {
+    required: [],
+    optional: [],
+    addresses: [],
+    initialValues: {},
+  };
+
+  const _inputs = _.map(schema.properties, (obj, key) => {
+    const input_type = () => {
+      if (obj.type === 'string') {
+        return 'text';
+      } else {
+        return obj.type;
+      }
+    };
+    const fields = () => {
+      if (obj.type === 'address') {
+        return obj.address;
+      } else {
+        return {};
+      }
+    };
+    const placeholder = () => {
+      if (obj.type === 'email') {
+        return 'you@youremail.com';
+      } else if (obj.type === 'tel') {
+        return '999-999-9999';
+      } else if (obj.type === 'date') {
+        return 'MM/DD/YYYY';
+      } else {
+        return '';
+      }
+    };
+    return {
+      id: key,
+      input_type: input_type(),
+      name: key,
+      label: obj.title,
+      title: obj.title,
+      required: obj.required || false,
+      placeholder: placeholder(),
+      fields: fields(),
+    };
+  });
+
+  _.each(schema.properties, (obj, key) => {
+    if (obj.type === 'address') {
+      _exports.initialValues[key] = obj.address;
+    } else {
+      _exports.initialValues[key] = '';
+    }
+  });
+
+  _.each(_inputs, (obj) => {
+    if (obj.input_type === 'address') {
+      _exports.addresses.push(obj);
+    } else {
+      if (obj.required && obj.input_type !== 'address') {
+        _exports.required.push(obj);
+      } else if (obj.input_type !== 'address') {
+        _exports.optional.push(obj);
+      }
+    }
+  });
+  return {
+    ..._exports,
+  };
+};
+
+// console.log(UserProfileSchema().initialValues);
+export default UserProfileSchema;
+
